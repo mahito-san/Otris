@@ -127,8 +127,74 @@ private:
     }
     Context(char cType)
     {
-        
+        switch(cType)
+        {
+            case 'Z':
+                gbase = new Zgraph();clr = YELLOW;
+                break;
+            case 'T':
+                gbase = new Tgraph();clr = GREEN;
+            case 'O':
+                gbase = new Ograph();clr = PURPLE;
+                break;
+            case 'I':
+                gbase = new Igraph();clr =DEEP_GREEN;
+                break;
+            case 'L':
+                gbase = new Lgraph();clr = WHITE;
+                break;
+            default:
+                cout<<"no "<<cType<<"type"<<endl;
+                break;
+        }
     }
+
+    int move(int dir){
+        return gbase->move(dir);
+    }
+    int roll()
+    {
+        return gbase->roll;
+    }
+    void draw()
+    {
+        gbase->draw();
+    }
+
+
+    void setLocate(int a,int b)
+    {
+        gbase->setLocate(a,b);
+    }
+    void getLocate(int *a,int *b)
+    {
+        gbase->getLocate(a,b);
+    }
+    void* getArray()
+    {
+        gbase->getArray();
+    }
+
+    void printG(int color)
+    {
+        if(color == CLEAR)
+        {
+            gbase->printG(CLEAR);
+        }
+        else{
+            gbase->printG(clr);
+        }
+    }
+
+    void setLocate(color clr)
+    {
+        this->clr = clr;
+    }
+    color getColor()
+    {
+        return clr;
+    }
+
 };
 
 
