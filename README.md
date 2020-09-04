@@ -12,7 +12,7 @@ Otris, a remake of Tetris, is a console game made in C++ to recall the nostalgia
 
 ## Needs gnu c++ & make for installation
 
-## Installation
+## Installation & Running
 * $git clone 
 * $cd Otris && cd source && make
 * $./game
