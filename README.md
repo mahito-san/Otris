@@ -13,6 +13,6 @@
 ## Needs gnu c++ & make for installation
 
 ## Installation & Running
-* $git clone 
+* $git clone "https://github.com/Mahi812/Otris.git"
 * $cd Otris && cd source && make
 * $./game
