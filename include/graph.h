@@ -4,7 +4,7 @@ using namespace std;
 #include <stdlib.h>
 #define DOWN 0
 #define LEFT 1
-#definr RIGHT 2
+#define RIGHT 2
 
 class Gbase{
     protected:
