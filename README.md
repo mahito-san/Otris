@@ -1,5 +1,5 @@
 # Otris
-> Semester Final Project
+> Semester Final Project  
 > Course: CSE4301,Object Oriented Programming     
 > Otris, a remake of infamous arcade puzzle game Tetris,re-written in C++ to recall the nostalgia.
 
