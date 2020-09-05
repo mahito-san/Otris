@@ -6,11 +6,13 @@
 
 ## Features
 * Displays Score
-* User friendly interface
-* Run or pause option
-* Easy control options
+* User Friendly Interface
+* Run or Pause Option
+* Easy Control Options
 
-## Needs gnu c++ & make for installation
+## Requirements
+* GNU C++
+* make
 
 ## Installation & Running
 * $git clone "https://github.com/Mahi812/Otris.git"
