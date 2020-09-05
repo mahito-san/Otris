@@ -10,7 +10,7 @@
 * Easy Control Options
 
 ## Requirements
-* GNU C++
+* gnu c++
 * make
 
 ## Installation & Running
