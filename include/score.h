@@ -10,7 +10,7 @@ class Score{
     int score;
     public:
     Score(){
-        player = "viMer";
+        player = "YOU";
         score=0;
     };
     void setName(string name)
