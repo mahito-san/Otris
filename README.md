@@ -17,3 +17,6 @@
 * $git clone "https://github.com/Mahi812/Otris.git"
 * $cd Otris && cd source && make
 * $./game
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
