@@ -158,3 +158,18 @@ bool Game::setPenal()
 
     return true;
 }
+
+
+//needs huge clarification
+void Game::createCube()
+{
+    m_graph = nextGraph;
+    setPenal();
+    m_graph->printG(YELLOW);
+
+    nextGraph = new Context(getShape());
+
+    nextGraph->draw();
+    nextGraph->setLocate(1,7);
+    printNextCube(nextGraph);
+}
