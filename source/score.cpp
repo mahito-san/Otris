@@ -1,6 +1,6 @@
-#include "../include/score.h"
-#include "../include/cur.h"
-#include "../include/cur.h"
+#include "../include/score.hpp"
+#include "../include/cur.hpp"
+#include "../include/cur.hpp"
 
 void Score::printMessege()
 {

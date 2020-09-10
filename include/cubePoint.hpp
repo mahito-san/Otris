@@ -2,7 +2,7 @@
 #define CUBEPOINT_H_
 
 #include<iostream>
-#include "cur.h"
+#include "cur.hpp"
 using namespace std;
 
 enum color

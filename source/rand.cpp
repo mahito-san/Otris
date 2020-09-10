@@ -1,4 +1,4 @@
-#include "../include/rand.h"
+#include "../include/rand.hpp"
 #include <ctime>
 #include <stdlib.h>
 #include <iostream>

@@ -1,8 +1,8 @@
-#include ".../include/game.h"
-#include "../include/rand.h"
+#include ".../include/game.hpp"
+#include "../include/rand.hpp"
 #include <cstring>
 #include <cstdio>
-#include <pthread>
+#include <thread>
 #include <unistd.h>
 #include <semaphore.h>
 

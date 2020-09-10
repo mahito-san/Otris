@@ -1,4 +1,4 @@
-#include "../include/graph.h"
+#include "../include/graph.hpp"
 #include <unistd.h>
 
 

@@ -1,6 +1,6 @@
-#include "graph.h"
-#include "rand.h"
-#include "score.h"
+#include "graph.hpp"
+#include "rand.hpp"
+#include "score.hpp"
 
 enum MARK
 {
@@ -79,7 +79,7 @@ public:
 MARK getMark();
 void setMark( MARK );
 
-void printHelep();
+void printHelep();//DEBUGGING Purpose
 
 };
 
