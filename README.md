@@ -12,7 +12,8 @@
 
 ## Requirements
 * gnu c++
-* make
+* gnu make
+* git
 
 ## Installation & Running
 * $git clone "https://github.com/Mahi812/Otris.git"
