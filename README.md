@@ -19,3 +19,5 @@
 * $cd Otris && make
 * $./Otris
 
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
