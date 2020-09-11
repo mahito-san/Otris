@@ -18,6 +18,3 @@
 * $git clone "https://github.com/Mahi812/Otris.git"
 * $cd Otris && make
 * $./Otris
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
