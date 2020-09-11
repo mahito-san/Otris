@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #include"../include/cubePoint.hpp"
 #include<cstdio>
 #include <iostream>;

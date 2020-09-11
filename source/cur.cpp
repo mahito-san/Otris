@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #include"../include/cur.hpp"
 #include<cstdio>
 #include<cstdlib>
