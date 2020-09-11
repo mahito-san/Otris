@@ -1,5 +1,10 @@
-#ifndef CUR_H_
-#define CUR_H_
+#ifndef CUR_HPP_
+#define CUR_HPP_
+//
+//if we want to move the cursor in a program 
+//
+//we only need a cur object
+//which we will use throughout the program files
 
 #include<iostream>
 using namespace std;
@@ -11,3 +16,4 @@ public:
 		void resumeCur();			//resumes the cursor
 };
 #endif
+

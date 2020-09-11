@@ -1,123 +1,109 @@
-#include ".../include/game.hpp"
+//Game.cpp file
+
+#include "../include/game.hpp"
 #include "../include/rand.hpp"
 #include <cstring>
-#include <cstdio>
-#include <thread>
+#include<cstdio>
+#include<pthread.h>
 #include <unistd.h>
-#include <semaphore.h>//semaphore operations
-
-
+#include <semaphore.h>
 #define SPEED 500000
-#define PENAL_SIZE(17*24*sizeof(int))
-#define  CUBE_SIZE(3*3*sizeof(int))
+#define PENAL_SIZE (17*24*sizeof(int)) // the size of background
+#define CUBE_SIZE (3*3*sizeof(int))
 
-pthread_mutex_t mutex_lock;//threading sync,safe threading
-
+pthread_mutex_t	mutex_lock;///////
+//safe threading
+// mutex class is a synchronization primitive that can be used to protect 
+//shared data from being simultaneously accessed by multiple threads.
+//as there will be two threads,mutex lock will protect
+//from accessing data that the otehr thread isn't allowed of getting access
 int num = 0;
 
 static int stop_flag;
-
-
-//in order to call the srand function only once
-//so that random numbers generated at similar times 
-//will not be repeated.
-
+//In order to call the srand function only once, 
+//so that random numbers generated at similar times
+// will not be repeated
 static Rand r;
 
+/////////////////////////////////////////////
+//print of next cube 
 void Game::printNextCube(Context* graph)
 {
-    int x = 7;
-    int y = 19;
-
+int x = 7;
+int y = 19;
     int i,j;
-    Cur c;
-    CubePoint p;
+   Cur c;
+    CubePoint p;   
 
-    c.saveCur();        //
-    c.moveCur(6,19);    //
-    c.resumeCur();      //
-                        //
+c.saveCur();
+   c.moveCur(6,19);
+   cout<<"next : ";
+   c.resumeCur();
 
-    int a[3][3]={0};
-
+    int a[3][3] = {0};  //get block array
     memcpy(a,graph->getArray(),CUBE_SIZE);
-    
-    
-    for(i=x;i<x+3;i++)
-    {
-        for(j=y;j<y+3;j++)
-        {
-            p.setLocate(i,j);
-            p.setColor(CLEAR);
-            p.printPoint();
-
-            if(a[i-x][j-y] == 1) 
+    for(i = x; i < x+3; i++)
+        for(j = y; j < y+3; j++)
+        {       p.setLocate(i,j);
+		p.setColor(CLEAR);
+                p.printPoint();
+            if(a[i - x][j - y] == 1)
             {
+
                 p.setColor(graph->getColor());
                 p.printPoint();
             }
-
         }
-    }
 }
-
-
+//User Interface with Cursor Class named as Cur
 void Game::printHelep()
 {
-    Cur c;
+   	Cur c;
 	c.saveCur();
    	c.moveCur(10,19);
    	cout<<"a: go to left" << endl;
     c.resumeCur();
     c.saveCur();
-   	c.moveCur(11,19);
-   	cout<<"d: go to right" << endl;
+    c.moveCur(11,19);
+    cout<<"d: go to right" << endl;
     c.resumeCur();
     c.saveCur();
-   	c.moveCur(12,19);
-   	cout<<"w: roll cube" << endl;
+    c.moveCur(12,19);
+    cout<<"w: roll cube" << endl;
     c.resumeCur();
     c.saveCur();
-   	c.moveCur(13,19);
-   	cout<<"s: go to down" << endl;
+    c.moveCur(13,19);
+    cout<<"s: go to down" << endl;
     c.resumeCur();
     c.saveCur();
-   	c.moveCur(14,19);
-   	cout<<"p: run or pause" << endl;
+    c.moveCur(14,19);
+    cout<<"p: run or pause" << endl;
     c.resumeCur();
 }
-
-
 
 void Game::gameInit()
 {
-    printHelep();
+	printHelep();
 
-    nextGraph = new Context(getShape());
-    nextGraph->draw();
-    nextGraph->setLocate(1,7);
+	nextGraph = new Context(getShape());
+	nextGraph->draw();
+	nextGraph->setLocate(1,7);
 
-    createCube();
+	createCube();
 }
 
-//
-MARK Game::getMark() 
+MARK Game::getMark()
 {
-    return mark;
+	return mark;
 }
-
-
-//
-void Game::setMark(Mark mark)
+void Game::setMark( MARK mark )
 {
-    this->mark = mark;
+	this->mark = mark;
 }
 
-
-//destructor
 Game::~Game()
 {
-    if( NULL != m_graph )
+	if( NULL != m_graph )
 	{
 		delete m_graph;
 		m_graph = NULL;
@@ -130,21 +116,25 @@ Game::~Game()
 	}
 }
 
+//////////////////////////////////////////////
+//game constructor
+//constructing the game object
 Game::Game()
 {
     m_graph = NULL;
     x = 1;
     y = 7;
-    CubePoint p;
+    CubePoint p;//position defined
     int i;
-    s.printMessage();
+    s.printMessege();
 
 	mark = GAME_RUN;////////////////////////////////////////////////
 
     memset((void*)m_penal,0,PENAL_SIZE); 
 	memset((void*)m_color,0,PENAL_SIZE);///////////////////
-   for(i = 0; i < 24; i++)
-   {
+   
+    for(i = 0; i < 24; i++)
+    {
         p.setLocate(i,0);
         p.setColor(BLUE);
         p.printPoint();
@@ -153,9 +143,9 @@ Game::Game()
         p.printPoint();
         m_penal[i][0] = 1;
         m_penal[i][16] = 1;
-   }
-   for(i = 0; i < 17; i++)
-   {
+    }
+    for(i = 0; i < 17; i++)
+    {
         p.setLocate(23,i);
         p.setColor(BLUE);
         p.printPoint();
@@ -164,15 +154,22 @@ Game::Game()
         p.printPoint();
         m_penal[23][i] = 1;
         m_penal[0][i] = 1;
+    }
+   /*Test whether the panel value is normal
+   for(i = 0; i < 24; i++)
+   {
+        for(int j = 0; j < 17; j++)
+            cout << m_penal[i][j] <<" ";
+        cout << endl;
    }
-  
+   */
    fflush(stdout);
 }
-
+//get the shape
 char Game::getShape()
 {
     char ch;
-    switch(r.randNum(1,6))
+    switch(r.randNum(1,6))//chose from 1to5
     {
         case 1:ch = 'Z';break;
         case 2:ch = 'T';break;
@@ -190,10 +187,10 @@ char Game::getShape()
 bool Game::erasePenal()
 {
     int i,j;
-    int b[3][3] = {0}; 
+    int b[3][3] = {0}; //get the block array
 
     m_graph->printG(CLEAR);
-    memcpy(b,m_graph->getArray(),CUBE_SIZE);
+    memcpy(b,m_graph->getArray(),CUBE_SIZE);//cube szie and block defined
     for(i = 0; i < 3; i++)
         for(j = 0; j < 3; j++)
         {
@@ -206,14 +203,14 @@ bool Game::erasePenal()
 bool Game::recoverPenal()
 {
     int i,j;
-    int b[3][3] = {0};
+    int b[3][3] = {0}; //the block array
 
     memcpy(b,m_graph->getArray(),CUBE_SIZE);
     for(i = x; i < x + 3; i++)
         for(j = y; j < y + 3; j++)
         {
             m_penal[i][j] += b[i-x][j-y];
-		m_color[i][j] = m_graph->getColor();///////////////////////////
+		m_color[i][j] = m_graph->getColor();////////the color of the block///////
         }
     return true;
 
@@ -222,11 +219,20 @@ bool Game::recoverPenal()
 bool Game::setPenal()
 {
     int i,j;
-    int b[3][3] = {0};
+    int b[3][3] = {0}; //getting the block array
 
     m_graph->getLocate(&x,&y);
     memcpy(b,m_graph->getArray(),CUBE_SIZE);
-   
+    /*Test whether the block array is normal
+    for(i = 0;i < 3; i++)
+    {
+        for(j = 0; j < 3; j++)
+            cout<<b[i][j]<< " ";
+        cout<<endl;
+    }
+    */
+
+    //if it touches th upper ground game over
     for(i = x; i < x + 3; i++)
         for(j = y; j < y + 3; j++)
         {
@@ -234,8 +240,8 @@ bool Game::setPenal()
             if(m_penal[i][j] > 1)
             {
                 cout<<"game over"<<endl;
-                
-                system("stty icanon echo");
+                //Add score statistics rankings, etc.
+                system("stty icanon echo");//system call
                 exit(0);
             }
         }
@@ -252,36 +258,42 @@ void Game::createCube()
 	nextGraph->draw();
 	nextGraph->setLocate(1,7);
 	printNextCube(nextGraph);
- 
+    /*
+   for(int i = 0; i < 24; i++)
+   {
+        for(int j = 0; j < 17; j++)
+            cout << m_penal[i][j] <<" ";
+        cout << endl;
+   }
+   */
 }
 
-
-void Game::move(int dir)
+void Game::move(int dir)//moving the block
 {
 
 	if(GAME_RUN != mark)
 		return;
     erasePenal();
-pthread_mutex_lock(&mutex_lock);///////////////////////////////////////
+    pthread_mutex_lock(&mutex_lock);///////////////////////////////////////
     switch(dir)
     {
         case DOWN:
-            if(false == isAttachBottom())
+            if(false == isAttachBottom()) //if its not touching the floor
             {
-                m_graph->move(DOWN);
+                m_graph->move(DOWN); //it stays on course
                 setPenal();
                 m_graph->printG(YELLOW);
             }
             else
             {
                 recoverPenal();
-                m_graph->printG(YELLOW);
+                m_graph->printG(YELLOW); //if it touches then recovar
                 erase();
                 stop();
             }
             break;
         case LEFT:
-            if(false == isAttachLeft())
+            if(false == isAttachLeft()) //not left
             {
                 m_graph->move(LEFT);
                 setPenal();
@@ -295,7 +307,7 @@ pthread_mutex_lock(&mutex_lock);///////////////////////////////////////
  
             break;
         case RIGHT:
-            if(false == isAttachRight())
+            if(false == isAttachRight()) //not right
             {
                 m_graph->move(RIGHT);
                 setPenal();
@@ -310,26 +322,26 @@ pthread_mutex_lock(&mutex_lock);///////////////////////////////////////
         default:
             break;
     }
-pthread_mutex_unlock(&mutex_lock);/////////////////////////////////////
+pthread_mutex_unlock(&mutex_lock);//////////thread unlcoking//////////
 }
 void Game::roll()
 {
-    
+    //Take the value of the square and put it in an array firs
     int i,j;
     int flag = 0;
-    int b[3][3] = {0}; 
+    int b[3][3] = {0}; //get blovk array
     int temp[3][3] = {0};
 
     m_graph->getLocate(&x,&y);
     memcpy(b,m_graph->getArray(),CUBE_SIZE);
     erasePenal();
-    //旋转数组
+    //Rotate the array
     for(i = 0; i < 3; i++)
         for(j = 0; j < 3; j++)
         {
             temp[2-j][i] = b[i][j];
         }
-    
+    //Determine whether it will coincide with the panel after rotation
     for(i = 0; i < 3; i++)
     {
         for(j = 0; j < 3; j++)
@@ -343,7 +355,8 @@ void Game::roll()
         if(flag == 1)
             break;
     }
-    
+    //If they do not overlap, rotate the square and 
+    //set the value of the panel
     if(flag == 0)
     {
         m_graph->roll();
@@ -351,7 +364,7 @@ void Game::roll()
     setPenal();
     m_graph->printG(YELLOW);
 }
-void Game::stop()
+void Game::stop() //stops
 {
     delete m_graph;
 	m_graph = NULL;
@@ -363,7 +376,7 @@ bool Game::isAttachBottom()
 {
     int i,j;
     int cube_x,cube_y;
-    int b[3][3] = {0};  
+    int b[3][3] = {0};  //get the block array
     int flag = false;
 
     m_graph->getLocate(&cube_x,&cube_y);
@@ -388,7 +401,7 @@ bool Game::isAttachLeft()
 {
     int i,j;
     int cube_x,cube_y;
-    int b[3][3] = {0}; 
+    int b[3][3] = {0}; //get the block array
     int flag = false;
 
     m_graph->getLocate(&cube_x,&cube_y);
@@ -414,7 +427,7 @@ bool Game::isAttachRight()
 {
     int i,j;
     int cube_x,cube_y;
-    int b[3][3] = {0}; 
+    int b[3][3] = {0}; //get the block array
     int flag = false;
 
     m_graph->getLocate(&cube_x,&cube_y);
@@ -435,7 +448,7 @@ bool Game::isAttachRight()
     }
     return flag;
 }
-void Game::erase()//gets earse if one line is completed
+void Game::erase()
 {
    int i,j;
    int flag = 0;
@@ -451,12 +464,12 @@ void Game::erase()//gets earse if one line is completed
         }
         if(flag == 0)
         {
-            
+            //adding the points
             count++;
             s.setScore(count);
-            s.printMessage();
+            s.printMessege();
 
-
+            //The graphics above the row are located as a whole
             down(i);
             i++;
         }
@@ -473,7 +486,7 @@ void Game::down(int level)
         {
             m_penal[i][j] = m_penal[i - 1][j];
         }
-
+    //refresh panel
     CubePoint p;
     for(i = 1; i < 23; i++)
         for(j = 1; j < 16; j++)
@@ -494,31 +507,32 @@ void Game::down(int level)
         }
 }
 
-//listens the key,main control happens here
-//thread init ed for taking input and animation simultaneously
+
+//main function and related listenKey function starts here
+//listenkey is used as the function for taking inputs
 void* listenKey(void *ptr)
 {
     Game* ptrg = (Game*)ptr;
+    //object pointrt
     char key;
     while(1)
     {
-        system("stty -icanon -echo");
+        system("stty -icanon -echo");//setting up no input cache,system call to clear the buffer
         key = getchar();
-        system("stty icanon echo");
+        system("stty icanon echo");//system call to clear the buffer
         switch(key)
         {
-            //goes for every a,d,w,s
             case 'a':
-                ptrg->move(LEFT);break;
+                ptrg->move(LEFT);break; //keys are distributed as inside switch
             case 'd':
                 ptrg->move(RIGHT);break;
             case 'w':
-                ptrg->roll();break;//one roll at a time
+                ptrg->roll();break;
             case 's':
-                
+                //Downhill
                 while(1)
                 {
-                    if(stop_flag == 1)//the floor 
+                    if(stop_flag == 1)
                     {
                         stop_flag = 0;
                         break;
@@ -526,7 +540,7 @@ void* listenKey(void *ptr)
                     ptrg->move(DOWN);
                 }
                 break;
-            case 68:
+            case 68: //ASCII
                 ptrg->move(LEFT);
                 break;
             case 67:
@@ -546,7 +560,7 @@ void* listenKey(void *ptr)
                 break;
 
             case 'p':
-		if(GAME_RUN == ptrg->getMark())//pause and run system
+		if(GAME_RUN == ptrg->getMark())
 			ptrg->setMark(GAME_PAUSE);
 		else ptrg->setMark(GAME_RUN);
                 break;
@@ -558,19 +572,20 @@ void* listenKey(void *ptr)
 }
 int main()
 {
-    pthread_t t1;
-    pthread_mutex_init(&mutex_lock, NULL);//thread initialization
+    pthread_t t1; //threading 
+    //created thread t1
+pthread_mutex_init(&mutex_lock, NULL);//thread safety
 	system("clear");
     Game g;
     //g.createCube();
 	g.gameInit();
-    pthread_create(&t1,NULL,listenKey,(void*)(&g));//thread creation
+    pthread_create(&t1,NULL,listenKey,(void*)(&g));
 
     while(1)
     {
-        fflush(stdout);
-        usleep(SPEED);//framerate
-        g.move(DOWN);//automatically cubes going down
+        fflush(stdout); //flushes the outpu of a buffer in std output
+        usleep(SPEED);//calculates in milisec
+        g.move(DOWN);//the blocks tend to get down
     }
 	return 0;
 }
