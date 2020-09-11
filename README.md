@@ -16,7 +16,7 @@
 ## Installation & Running
 * $git clone "https://github.com/Mahi812/Otris.git"
 * $cd Otris && make
-* $./game
+* $./Otris
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
