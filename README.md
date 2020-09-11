@@ -1,4 +1,5 @@
 # Otris
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 > Semester Final Project  
 > Course: CSE4301,Object Oriented Programming     
 > Otris, a remake of infamous arcade puzzle game Tetris,re-written in c++ to recall the nostalgia.
@@ -18,5 +19,3 @@
 * $cd Otris && make
 * $./Otris
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
