@@ -19,3 +19,8 @@
 * $git clone "https://github.com/Mahi812/Otris.git"
 * $cd Otris && make
 * $./Otris
+
+## Possible Future Improvements
+* Integrated Textures
+* Add GUI
+* Using SFML library to achieve above two objectives
